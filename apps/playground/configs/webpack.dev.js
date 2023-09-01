@@ -6,7 +6,7 @@ module.exports = merge(webpackBaseConfig, {
   mode: "development",
   devServer: {
     static: {
-      directory: path.join(__dirname, "../dist"),
+      directory: path.join(__dirname, "../build"),
     },
     headers: {
       "Access-Control-Allow-Origin": "*",
