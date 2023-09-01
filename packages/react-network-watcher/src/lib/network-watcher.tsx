@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { handleOperation, listen } from "@utils";
 
 export interface History {
@@ -7,9 +7,9 @@ export interface History {
 }
 
 export function useNetworkWatcher(): History[] {
-  const [history, setHistory] = useState<History[]>([]);
+  const history = useRef<History[]>([]);
   const updateHistory = (newHistory: History) => {
-    setHistory((prevousHistory: History[]) => [...prevousHistory, newHistory]);
+    history.current = [...history.current, newHistory];
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function useNetworkWatcher(): History[] {
     );
   }, []);
 
-  return history;
+  return history.current;
 }
 
 export default useNetworkWatcher;

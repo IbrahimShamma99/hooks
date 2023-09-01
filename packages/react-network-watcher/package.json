@@ -1,6 +1,6 @@
 {
   "name": "react-fetch-watcher",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
