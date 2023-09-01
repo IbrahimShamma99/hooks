@@ -3,10 +3,9 @@
 ## How to use
 
 ```tsx
-import { useStateWithHistory } from "use-state-with-history";
+import { useNetworkWatcher } from "react-fetch-watcher";
 
 function Component() {
-  const [value, setValue, { history, forward, backward, go }] =
-    useStateWithHistory<number>(0);
+  const history = useNetworkWatcher();
 }
 ```
