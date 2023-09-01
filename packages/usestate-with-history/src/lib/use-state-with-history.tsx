@@ -1,42 +1,80 @@
-import { useEffect, useState } from "react";
-import { handleOperation, listen } from "@utils";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  SetStateAction,
+  Dispatch,
+  useRef,
+} from "react";
 
-export interface History {
-  input: RequestInfo | URL;
-  init?: RequestInit | undefined;
-}
+export type useStateWithHistory<T> = [
+  T,
+  Dispatch<SetStateAction<T>>,
+  {
+    history: Array<T>;
+    forward: () => void;
+    backward: () => void;
+    go: (index: number) => void;
+  }
+];
 
-export function useNetworkWatcher(): History[] {
-  const [history, setHistory] = useState<History[]>([]);
-  const updateHistory = (newHistory: History) => {
-    setHistory((prevousHistory: History[]) => [...prevousHistory, newHistory]);
-  };
+export function useStateWithHistory<T>(
+  defaultValue: T
+): useStateWithHistory<T> {
+  const [value, setValue] = useState<T>(defaultValue);
+  const historyRef = useRef<Array<T>>([value]);
+  const pointerRef = useRef<number>(0);
 
-  useEffect(() => {
-    window.fetch = new Proxy(window.fetch, {
-      apply: async function (
-        target,
-        that,
-        // eslint-disable-next-line unicorn/prevent-abbreviations
-        args: [input: RequestInfo | URL, init?: RequestInit | undefined]
-      ) {
-        await handleOperation("fetch", {
-          input: args[0],
-          init: args[1],
-        });
-        const temporary = target.apply(that, args);
-        return temporary;
-      },
-    });
-    listen(
-      "fetch",
-      ({ input, init }: { input: RequestInfo; init?: RequestInit }) => {
-        updateHistory({ input, init });
+  const set = useCallback(
+    (newValue: SetStateAction<T>) => {
+      const nextValue =
+        typeof newValue === "function"
+          ? (newValue as (value: T) => T)(value)
+          : newValue;
+      if (nextValue !== value) {
+        setValue(nextValue);
+        pointerRef.current++;
+        historyRef.current = historyRef.current.shiftWithValue(
+          pointerRef.current,
+          nextValue
+        );
       }
-    );
-  }, []);
+    },
+    [value]
+  );
 
-  return history;
+  return [
+    value,
+    set,
+    {
+      history: historyRef.current,
+      forward: useCallback(() => {
+        if (pointerRef.current === historyRef.current.length - 1) {
+          return;
+        }
+        pointerRef.current++;
+        setValue(historyRef.current[pointerRef.current]);
+      }, []),
+      backward: useCallback(() => {
+        if (pointerRef.current === 0) {
+          return;
+        }
+        pointerRef.current--;
+        setValue(historyRef.current[pointerRef.current]);
+      }, []),
+      go: useCallback((index: number) => {
+        if (
+          index < 0 ||
+          index > historyRef.current.length - 1 ||
+          index === pointerRef.current
+        ) {
+          throw new Error("Invalid index");
+        }
+        pointerRef.current = index;
+        setValue(historyRef.current[pointerRef.current]);
+      }, []),
+    },
+  ];
 }
 
-export default useNetworkWatcher;
+export default useStateWithHistory;
