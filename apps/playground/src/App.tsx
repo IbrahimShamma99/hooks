@@ -1,34 +1,18 @@
 import React, { useCallback, useRef } from "react";
-import { useStateWithHistory } from "use-state-with-history";
+import { useListener } from "react-typed-use-listener";
 
 function App() {
-  const [value, setValue, { history, forward, backward, go }] =
-    useStateWithHistory<number>(0);
-
-  console.log(history);
-
+  useListener({
+    eventName: "resize",
+    callback: (event) => {
+      // NOTE: here event is typed as EventsMap['resize']
+    },
+  });
   return (
     <div className="App">
-      <button
-        onClick={() => {
-          setValue(value + 1);
-        }}
-      >
-        click me
-      </button>
-      <h1>{value} timees</h1>
+      <button onClick={() => {}}>click me</button>
 
       <br />
-
-      <button onClick={forward}>forward</button>
-
-      <br />
-
-      <button onClick={backward}>backward</button>
-
-      <br />
-
-      <button onClick={() => go(2)}>Go</button>
     </div>
   );
 }
