@@ -1,12 +1,20 @@
-# use-state-with-history
+# react-typed-use-listener
 
 ## How to use
 
 ```tsx
-import { useStateWithHistory } from "use-state-with-history";
+import { useListener } from "react-typed-use-listener";
 
-function Component() {
-  const [value, setValue, { history, forward, backward, go }] =
-    useStateWithHistory<number>(0);
+function App() {
+  useListener({
+    eventName: "resize",
+    callback: (event) => {
+      // NOTE: here event is typed as EventsMap['resize']
+    },
+  });
+
+  return <></>;
 }
+
+export default App;
 ```

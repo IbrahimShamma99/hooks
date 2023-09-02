@@ -1,4 +1,3 @@
-import React, { useCallback, useRef } from "react";
 import { useListener } from "react-typed-use-listener";
 
 function App() {
@@ -8,13 +7,7 @@ function App() {
       // NOTE: here event is typed as EventsMap['resize']
     },
   });
-  return (
-    <div className="App">
-      <button onClick={() => {}}>click me</button>
-
-      <br />
-    </div>
-  );
+  return <></>;
 }
 
 export default App;
