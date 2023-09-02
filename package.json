@@ -11,7 +11,7 @@
   "dependencies": {
     "i": "^0.3.7",
     "npm": "^10.0.0",
-    "use-state-with-history": "file:packages/usestate-with-history",
+    "use-state-with-history": "file:packages/use-state-with-history",
     "react-typed-use-listener": "file:packages/react-typed-use-listener"
   },
   "devDependencies": {
