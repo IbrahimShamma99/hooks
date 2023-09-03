@@ -1,17 +1,12 @@
-# use-async
+# use-counter-with-history
 
 ## How to use
 
 ```tsx
-import { useAsync } from "use-async-2";
+import { useCounterWithHistory } from "use-counter-with-history";
 
 function Component() {
-  const { value, loading, error } = useAsync<number>(() => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(1);
-      }, 1000);
-    });
-  });
+  const [counter, setCounter, { history, forward, backward, go }] =
+    useCounterWithHistory(0);
 }
 ```

@@ -1,1 +1,1 @@
-export * from "./lib/use-async";
+export * from "./lib/use-counter-with-history";
