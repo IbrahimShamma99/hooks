@@ -6,13 +6,15 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npx lerna run dev"
+    "test": "npx lerna run test",
+    "dev": "npx lerna run dev",
+    "build": "npx lerna run build"
   },
   "dependencies": {
     "i": "^0.3.7",
     "npm": "^10.0.0",
-    "use-state-with-history": "file:packages/use-state-with-history",
-    "react-typed-use-listener": "file:packages/react-typed-use-listener"
+    "react-typed-use-listener": "file:packages/react-typed-use-listener",
+    "use-state-with-history": "file:packages/use-state-with-history"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",

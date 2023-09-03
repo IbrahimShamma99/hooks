@@ -1,13 +1,6 @@
-import {
-  useCallback,
-  useEffect,
-  useState,
-  SetStateAction,
-  Dispatch,
-  useRef,
-} from "react";
+import { useCallback, useState, SetStateAction, Dispatch, useRef } from "react";
 
-export type useStateWithHistory<T> = [
+type UseStateWithHistoryProps<T> = [
   T,
   Dispatch<SetStateAction<T>>,
   {
@@ -20,7 +13,7 @@ export type useStateWithHistory<T> = [
 
 export function useStateWithHistory<T>(
   defaultValue: T
-): useStateWithHistory<T> {
+): UseStateWithHistoryProps<T> {
   const [value, setValue] = useState<T>(defaultValue);
   const historyRef = useRef<Array<T>>([value]);
   const pointerRef = useRef<number>(0);
@@ -31,6 +24,7 @@ export function useStateWithHistory<T>(
         typeof newValue === "function"
           ? (newValue as (value: T) => T)(value)
           : newValue;
+
       if (nextValue !== value) {
         setValue(nextValue);
         pointerRef.current++;
