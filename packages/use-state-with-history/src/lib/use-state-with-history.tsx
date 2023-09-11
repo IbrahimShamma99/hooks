@@ -1,7 +1,7 @@
 import { useCallback, useState, SetStateAction, Dispatch, useRef } from "react";
 
 type UseStateWithHistoryProps<T> = [
-  T,
+  T | undefined,
   Dispatch<SetStateAction<T>>,
   {
     history: Array<T>;
@@ -12,17 +12,29 @@ type UseStateWithHistoryProps<T> = [
 ];
 
 export function useStateWithHistory<T>(
-  defaultValue: T
+  defaultValue?: T 
 ): UseStateWithHistoryProps<T> {
-  const [value, setValue] = useState<T>(defaultValue);
-  const historyRef = useRef<Array<T>>([value]);
+  let value: T | undefined,
+    setValue:
+      | Dispatch<SetStateAction<T>>
+      | Dispatch<SetStateAction<T | undefined>>,
+    historyRef : React.MutableRefObject<Array<T>>;
+  if (defaultValue) {
+    [value, setValue] = useState<T>(defaultValue);
+    historyRef = useRef<Array<T>>([value]);
+  } else {
+    [value, setValue] = useState<T>();
+    useRef<Array<T>>([]);
+    historyRef = useRef<Array<T>>([]);
+  }
+
   const pointerRef = useRef<number>(0);
 
   const set = useCallback(
     (newValue: SetStateAction<T>) => {
       const nextValue =
         typeof newValue === "function"
-          ? (newValue as (value: T) => T)(value)
+          ? (newValue as (newValueProp: T) => T)(value as T)
           : newValue;
 
       if (nextValue !== value) {
