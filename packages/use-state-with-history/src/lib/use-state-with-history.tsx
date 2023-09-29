@@ -21,12 +21,11 @@ function useStateWithHistory<T>(defaultValue?: T): UseStateWithHistoryProps<T> {
       | Dispatch<SetStateAction<T>>
       | Dispatch<SetStateAction<T | undefined>>,
     historyRef: React.MutableRefObject<Array<T>>;
-  if (defaultValue) {
+  if (defaultValue !== undefined) {
     [value, setValue] = useState<T>(defaultValue);
     historyRef = useRef<Array<T>>([value]);
   } else {
     [value, setValue] = useState<T>();
-    useRef<Array<T>>([]);
     historyRef = useRef<Array<T>>([]);
   }
 

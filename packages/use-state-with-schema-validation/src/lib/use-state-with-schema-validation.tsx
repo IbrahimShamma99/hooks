@@ -1,5 +1,5 @@
 import { useCallback, useState, SetStateAction, Dispatch, useRef } from "react";
-import { validator, JSONSchemaType } from "../utils";
+import { validator, JSONSchemaType } from "@library/utils";
 
 type UseStateWithSchemaProps<T> = [T | undefined, Dispatch<SetStateAction<T>>];
 

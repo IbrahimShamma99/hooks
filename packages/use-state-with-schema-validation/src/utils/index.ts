@@ -1,1 +1,4 @@
-export * from "./validator";
+export {
+    JSONSchemaType,
+    validator
+} from "./validator";

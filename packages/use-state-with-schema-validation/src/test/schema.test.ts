@@ -10,7 +10,7 @@ describe("State Schema Validation", () => {
     const { result } = renderHook(() =>
       useStateWithSchema<number>(
         {
-          type: "number",
+          type: ["integer", "number"]
         },
         0
       )

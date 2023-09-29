@@ -14,7 +14,10 @@
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": {}
+    "baseUrl": ".",
+    "paths": {
+      "@library/utils": ["src/utils/index.ts"]
+    }
   },
   "exclude": [
     "dist",

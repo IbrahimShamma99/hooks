@@ -6,7 +6,7 @@ import { act } from "react-dom/test-utils";
 describe("Counter", () => {
   test("mounts a count of 0", async () => {
     const promise = Promise.resolve();
-    const { result } = renderHook(() => useStateWithHistory<number>());
+    const { result } = renderHook(() => useStateWithHistory<number>(0));
 
     const [value, setValue] = result.current;
 
@@ -18,9 +18,8 @@ describe("Counter", () => {
     const promise = Promise.resolve();
     const { result } = renderHook(() => useStateWithHistory<number>(0));
 
-    const [value, setValue] = result.current;
+    act(() => result.current[1](1));
 
-    act(() => setValue(value + 1));
     expect(result.current[0]).toBe(1);
     await act(() => promise);
   });
@@ -28,15 +27,14 @@ describe("Counter", () => {
   test("increments by one two times start with zero", async () => {
     const promise = Promise.resolve();
     const { result } = renderHook(() => useStateWithHistory<number>(0));
-    const [value, setValue] = result.current;
     act(() => {
-      setValue(value + 1);
+      result.current[1](result.current[0] + 1);
     });
 
     act(() => {
-      setValue(value + 1);
+      result.current[1]((prev) => prev + 1);
     });
-    expect(value).toBe(2);
+    expect(result.current[0]).toBe(2);
     await act(() => promise);
   });
 
