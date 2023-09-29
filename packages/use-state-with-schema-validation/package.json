@@ -6,8 +6,7 @@
   "module": "dist/esm/index.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
-    "prepare": "husky install"
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +28,6 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.1",
-    "typescript": "^5.1.6",
-    "husky": "^8.0.0"
+    "typescript": "^5.1.6"
   }
 }
