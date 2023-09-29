@@ -1,13 +1,16 @@
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import json from "@rollup/plugin-json";
-import dts from "rollup-plugin-dts";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var resolve = require('@rollup/plugin-node-resolve');
+var commonjs = require('@rollup/plugin-commonjs');
+var typescript = require('@rollup/plugin-typescript');
+var dts = require('rollup-plugin-dts');
+var peerDepsExternal = require('rollup-plugin-peer-deps-external');
 
 const packageJson = require("./package.json");
 
-export default [
+var rollup_config = [
   {
     input: "src/index.ts",
     output: [
@@ -27,7 +30,6 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      json(),
     ],
     external: ["react", "react-dom"],
   },
@@ -37,3 +39,5 @@ export default [
     plugins: [dts.default()],
   },
 ];
+
+exports.default = rollup_config;
