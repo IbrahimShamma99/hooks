@@ -1,13 +1,13 @@
 import { useCallback, useState, SetStateAction, Dispatch, useRef } from "react";
-import { validator } from "../utils";
+import { validator, JSONSchemaType } from "../utils";
 
 type UseStateWithSchemaProps<T> = [T | undefined, Dispatch<SetStateAction<T>>];
 
 export function useStateWithSchema<T>(
-  schema: object,
+  schema: JSONSchemaType<T>,
   defaultValue?: T
 ): UseStateWithSchemaProps<T> {
-  const schemaValidator = validator(schema);
+  const schemaValidator = validator<T>(schema);
   let value: T | undefined,
     setValue:
       | Dispatch<SetStateAction<T>>
