@@ -10,7 +10,8 @@ describe("State Schema Validation", () => {
     const { result } = renderHook(() =>
       useStateWithSchema<number>(
         {
-          type: ["integer", "number"]
+          type: ["integer", "number"],
+
         },
         0
       )
@@ -50,6 +51,25 @@ describe("State Schema Validation", () => {
     act(() => result.current[1](1));
     act(() => result.current[1]((prev) => prev + 1));
     expect(result.current[0]).toBe(2);
+    await act(() => promise);
+  });
+
+
+  test("mounts state with Record of strings", async () => {
+    const promise = Promise.resolve();
+    const { result } = renderHook(() =>
+      useStateWithSchema<Record<"id" | "name", string>>(
+        {
+          type: "object",
+          required: ["id", "name"],
+        },
+        {
+          id: "11-22",
+          name: "John Doe"
+        }
+      )
+    );
+    expect(result.current[0].id).toBe("11-22");
     await act(() => promise);
   });
 

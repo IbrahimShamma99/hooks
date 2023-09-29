@@ -1,6 +1,6 @@
 {
   "name": "use-state-with-schema-validation",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
@@ -9,7 +9,12 @@
     "build": "rollup -c --bundleConfigAsCjs",
     "test": "react-scripts test --watchAll=false"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "hooks",
+    "schema",
+    "validation"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {

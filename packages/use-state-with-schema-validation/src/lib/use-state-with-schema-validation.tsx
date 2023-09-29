@@ -1,7 +1,16 @@
 import { useCallback, useState, SetStateAction, Dispatch, useRef } from "react";
-import { validator, JSONSchemaType } from "@library/utils";
+import { validator, JSONSchemaType } from "../utils"; //"@library/utils";
 
-type UseStateWithSchemaProps<T> = [T | undefined, Dispatch<SetStateAction<T>>];
+type UseStateWithSchemaProps<T> = [T, Dispatch<SetStateAction<T>>];
+
+export function useStateWithSchema<T>(
+  schema: JSONSchemaType<T>,
+  defaultValue: T
+): UseStateWithSchemaProps<T>;
+
+export function useStateWithSchema<T>(
+  schema: JSONSchemaType<T>
+): UseStateWithSchemaProps<T | undefined>;
 
 export function useStateWithSchema<T>(
   schema: JSONSchemaType<T>,
@@ -13,7 +22,7 @@ export function useStateWithSchema<T>(
       | Dispatch<SetStateAction<T>>
       | Dispatch<SetStateAction<T | undefined>>;
 
-  if (defaultValue) {
+  if (defaultValue !== undefined) {
     [value, setValue] = useState<T>(defaultValue);
   } else {
     [value, setValue] = useState<T>();
@@ -27,7 +36,7 @@ export function useStateWithSchema<T>(
           : newValue;
 
       if (!schemaValidator(nextValue)) {
-        throw new Error("New Value does it align with provided schema");
+        throw new Error("New Value does it align with the provided schema");
       }
 
       if (nextValue !== value) {
@@ -37,7 +46,7 @@ export function useStateWithSchema<T>(
     [value]
   );
 
-  return [value, set];
+  return [value as T, set];
 }
 
 export default useStateWithSchema;
